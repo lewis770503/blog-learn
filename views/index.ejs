@@ -1,0 +1,45 @@
+<% extend('./layouts/layout') %>
+<div class="row my-5 justify-content-center">
+  <div class="col-12">
+    <% for (var item in categories){%>
+        <a href="?category=<%- categories[item].id %>" class="btn btn-outline-info<%if (page_category === categories[item].id){ %> active <% } %>"><%- categories[item].name %></a>
+    <%}%>
+  </div>
+</div>
+<div class="row my-5 justify-content-center">
+  <div class="col-md-12">
+    <% if(articles.length > 0){ %>
+    <% for (var item in articles){ %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <a href="/post/<%- articles[item].id %>">
+          <h2 class="text-primary"><%- articles[item].title %></h2>
+        </a>
+        <div class="d-flex flex-row text-secondary small">
+          <div class="p-2"><span class="fa fa-user-o"></span> <%- articles[item].user || "無使用者"%>
+          </div>
+          <div class="p-2"><span class="fa fa-clock-o"></span> <%- momont(articles[item].update_time * 1000).format('YYYY/MM/DD') %></div>
+          <div class="p-2"><i class="fa fa-tag" aria-hidden="true"></i>
+            <a href="?category=<%- articles[item].category %>" class="text-info">
+              <% if(categories.hasOwnProperty(articles[item].category)) { %>
+                <%- categories[articles[item].category].name %>
+              <% } else { %>
+                沒有分類
+              <% } %>
+            </a>
+          </div>
+        </div>
+        <div>
+          <%- stringtags(articles[item].content).slice(0, 100)%>...
+        </div>
+      </div>
+    </div>
+    <% } %>
+    <% } else { %>
+       <div class="text-center"><h2>目前暫無資料</h2></div>
+    <% } %>
+  </div>
+</div>
+
+<!--pagination-->
+<%- include('partials/pagenation') %>

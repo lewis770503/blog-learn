@@ -1,0 +1,36 @@
+<nav class="my-5" aria-label="Page navigation example">
+    <% if(status){
+        var href = "?status=" + status + '&page=';
+    }else if(category_page){
+        var href = "?category=" + page_category + '&page=';
+    }else{
+        var href = '?page='
+    }
+    %>
+    <ul class="pagination justify-content-center">
+      <li class="page-item <% if(!page.hasPrev){ %> disabled <% } %>">
+        <a class="page-link" href="<%- href %><%- page.currentPage - 1 %>" tabindex="-1">Previous</a>
+      </li>
+      <% var maxPage = page.currentPage + 4;
+          var pageNum = page.currentPage;
+          if(maxPage > page.pageTotal){
+            maxPage = page.pageTotal;
+            pageNum = maxPage - 4;
+            if(pageNum <= 0){
+              pageNum = 1;
+            }
+          }
+      %>
+      <% for (var i = pageNum; i < maxPage + 1; i++){ %>
+      <li class="page-item <% if(i == page.currentPage){ %> active <% } %>">
+        <a class="page-link" href="<%- href %><%- i %>">
+          <%- i %>
+        </a>
+      </li>
+      <% } %>
+  
+      <li class="page-item <% if(!page.hasNext){ %> disabled <% } %>">
+        <a class="page-link" href="<%- href %><%- page.currentPage + 1 %>">Next</a>
+      </li>
+    </ul>
+  </nav>
